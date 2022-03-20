@@ -1,14 +1,17 @@
 #pragma once
 
+// #define _USE_MATH_DEFINES
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "Component.hpp"
 #include "Utility.hpp"
 #include <cmath>
+// #include <math.h>
 #include <iostream>
 #include <functional>
 
-#define PI 3.141592
+#define PI 3.1415926535
 
 
 class Circle : public Component{
@@ -48,7 +51,8 @@ public:
             for (float y = -_radius; y < _radius; y++) {
                 r = sqrtf(x*x + y*y);
                 if(r < _radius){
-                    fi = -atan2f(y, x) - 0.02;
+                    fi = -atan2f(-y, -x) + PI;
+                    // fi = 2*PI-fi;
                     _pixels.setPixel(static_cast<unsigned int>(x+_radius), static_cast<unsigned int>(y+_radius), _color(r/_radius, fi/2/PI, _z));
                 } 
             }
