@@ -11,6 +11,7 @@ private:
 	const int barY = 256;
     const float barValue = 0.5f;
     sf::Texture _texture;
+    sf::RenderTexture _renderTexture;
     sf::Sprite _sprite;
     sf::Image _pixels;
     sf::RectangleShape _line;
@@ -18,8 +19,8 @@ private:
 public:
     Bar(sf::Vector2f leftCorner)
         : _z{0.5},
-        _line(sf::Vector2f(62, 1)),
-        _border(sf::Vector2f(barX, barY)) {
+        _line(sf::Vector2f(62, 0.1)),
+        _border(sf::Vector2f(barX+3, barY+3)) {
             _texture.create(barX, barY);
             _pixels.create(barX, barY);
             _sprite.setPosition(leftCorner);
@@ -33,10 +34,10 @@ public:
             _line.setFillColor(sf::Color::Black);
             _line.setOutlineColor(sf::Color::Black);
             _line.setOutlineThickness(1.0f);
-            _border.setPosition(leftCorner);
-            _border.setFillColor(sf::Color::Transparent);
-            _border.setOutlineColor({200, 200, 200});
-            _border.setOutlineThickness(2.f);
+            _border.setPosition(leftCorner - sf::Vector2f(1, 1));
+            _border.setFillColor(sf::Color::White);
+            _border.setOutlineColor(sf::Color::Black);
+            _border.setOutlineThickness(0.5f);
             
         }
     void setZ(double z){
@@ -46,7 +47,7 @@ public:
         _line.setPosition(617, 20 + _z * 255);
         
         target.draw(_line);
-        target.draw(_sprite);
         target.draw(_border);
+        target.draw(_sprite);
     }
 };

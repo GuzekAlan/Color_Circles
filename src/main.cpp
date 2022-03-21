@@ -21,10 +21,16 @@ void updates(std::vector<Circle*>& Circles, std::vector<TextArea*>& Texts, Bar* 
     //     result.get();
     // }
     bar->setZ(Z);
-    Texts[5]->setText(sf::String("L=") += std::to_string(Z));
-    Texts[6]->setText(sf::String("V=") += std::to_string(Z));
-    Texts[7]->setText(sf::String("Y=") += sf::String(std::to_string((int)(Z*100))) += "%");
-    Texts[8]->setText(sf::String("B=") += std::to_string((int)(Z*255)));
+    pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("L=") += std::to_string(Z));}, Texts[5], Z);
+    pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("V=") += std::to_string(Z));}, Texts[6], Z);
+    pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("Y=") += sf::String(std::to_string((int)(Z*100))) += "%");}, Texts[7], Z);
+    pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("B=") += std::to_string((int)(Z*255)));}, Texts[8], Z);
+//     pool.enqueue([](TextArea* text){text->->setText(sf::String("V=") += std::to_string(Z));}, &Texts[5]);
+//     pool.enqueue([](TextArea* text){text->setText(sf::String("L=") += std::to_string(Z));}, &Texts[5]);
+//     pool.enqueue([](TextArea* text){text->setText(sf::String("L=") += std::to_string(Z));}, &Texts[5]);
+//     pool.enqueue([&](){Texts[6]->setText(sf::String("V=") += std::to_string(Z));});
+//     pool.enqueue([&](){Texts[7]->setText(sf::String("Y=") += sf::String(std::to_string((int)(Z*100))) += "%");});
+//     pool.enqueue([&](){Texts[8]->setText(sf::String("B=") += std::to_string((int)(Z*255)));});
 }
 
 
@@ -62,7 +68,7 @@ int main(){
 
     Bar* bar = new Bar(sf::Vector2f(630, 20));
 
-    ThreadPool pool(4);
+    ThreadPool pool(std::thread::hardware_concurrency());
 
     bool toUpdate = false;
 
