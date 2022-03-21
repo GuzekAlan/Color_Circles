@@ -28,7 +28,7 @@ public:
     void draw(sf::RenderTarget& target){
         target.draw(_text);
     }
-    void setText(sf::String text){
+    void setText(sf::String& text){
         _text.setString(text);
     }
 

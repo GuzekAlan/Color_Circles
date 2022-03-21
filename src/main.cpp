@@ -64,6 +64,8 @@ int main(){
 
     ThreadPool pool(4);
 
+    bool toUpdate = false;
+
     //inicjalizacja 
     clock.restart().asMilliseconds();
     while (window.isOpen()){
@@ -80,7 +82,7 @@ int main(){
                 && event.mouseButton.y > 20
                 && event.mouseButton.y < 277){
                     Z=(event.mouseButton.y-20)/256.;
-                    updates(Circles, Texts, bar, Z, pool);
+                    toUpdate = true;
                 }
             }
             if(event.type == sf::Event::MouseMoved && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
@@ -89,7 +91,7 @@ int main(){
                 && event.mouseMove.y > 20
                 && event.mouseMove.y < 277){
                     Z=(event.mouseMove.y-20)/256.;
-                    updates(Circles, Texts, bar, Z, pool);
+                    toUpdate = true;
                 }
             }
         }
@@ -106,6 +108,10 @@ int main(){
 
 ///////////////////////////////////////////////////////////////////
 
+        if(toUpdate){
+            updates(Circles, Texts, bar, Z, pool);
+            toUpdate = false;
+        }
 
         Texts[4]->setText(sf::String("FPS: ") += std::to_string(FPS));
         for(auto circle : Circles){

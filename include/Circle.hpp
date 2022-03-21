@@ -51,7 +51,7 @@ public:
             for (float y = -_radius; y < _radius; y++) {
                 r = sqrtf(x*x + y*y);
                 if(r < _radius){
-                    fi = -atan2f(-y, -x) + PI;
+                    fi = -atan2f(-y, -x) + PI - 0.02;
                     // fi = 2*PI-fi;
                     _pixels.setPixel(static_cast<unsigned int>(x+_radius), static_cast<unsigned int>(y+_radius), _color(r/_radius, fi/2/PI, _z));
                 } 
