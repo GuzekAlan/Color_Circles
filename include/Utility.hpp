@@ -10,7 +10,6 @@ double Hue_2_RGB(double v1, double v2, double vH);
 sf::Color HSVtoRGB(float H, float S,float V);
 
 
-
 sf::Color getRGB(double r, double g, double b){
     return sf::Color(static_cast<sf::Uint8>(r*255), static_cast<sf::Uint8>(g*255), static_cast<sf::Uint8>(b*255));
 }
@@ -33,8 +32,6 @@ sf::Color getHSV(double s, double h, double v){
     }
 
     double var_h = h*6.;
-    // if(var_h == 6.) 
-    //     var_h = 0.;
     int var_i = (int)var_h;
     double var_1 = v*(1.-s);
     double var_2 = v*(1.-s*(var_h - (double)var_i));

@@ -14,23 +14,13 @@ void updates(std::vector<Circle*>& Circles, std::vector<TextArea*>& Texts, Bar* 
     std::vector<std::future<void>> results;
     for(auto circle : Circles){
         circle->setZ(Z);
-        // results.push_back(pool.enqueue([](Circle* circle){circle->updateColor();}, circle));
         pool.enqueue([](Circle* circle){circle->updateColor();}, circle);
     }
-    // for(auto &result : results){
-    //     result.get();
-    // }
     bar->setZ(Z);
     pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("L=") += std::to_string(Z));}, Texts[5], Z);
     pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("V=") += std::to_string(Z));}, Texts[6], Z);
     pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("Y=") += sf::String(std::to_string((int)(Z*100))) += "%");}, Texts[7], Z);
     pool.enqueue([](TextArea* text, double Z){text->setText(sf::String("B=") += std::to_string((int)(Z*255)));}, Texts[8], Z);
-//     pool.enqueue([](TextArea* text){text->->setText(sf::String("V=") += std::to_string(Z));}, &Texts[5]);
-//     pool.enqueue([](TextArea* text){text->setText(sf::String("L=") += std::to_string(Z));}, &Texts[5]);
-//     pool.enqueue([](TextArea* text){text->setText(sf::String("L=") += std::to_string(Z));}, &Texts[5]);
-//     pool.enqueue([&](){Texts[6]->setText(sf::String("V=") += std::to_string(Z));});
-//     pool.enqueue([&](){Texts[7]->setText(sf::String("Y=") += sf::String(std::to_string((int)(Z*100))) += "%");});
-//     pool.enqueue([&](){Texts[8]->setText(sf::String("B=") += std::to_string((int)(Z*255)));});
 }
 
 
@@ -72,7 +62,7 @@ int main(){
 
     bool toUpdate = false;
 
-    //inicjalizacja 
+    // Initialize
     clock.restart().asMilliseconds();
     while (window.isOpen()){
         sf::Event event;
@@ -101,18 +91,12 @@ int main(){
                 }
             }
         }
-        //tu wyrysować wszystko na ekran
-
-///////////////////////////////////////////////////////////////////////       
-        //tu wypisać na ekran wartość FPS
         if (clock.getElapsedTime().asSeconds() >= 0.5f){
             FPS = (unsigned int)((float)frame_counter / clock.getElapsedTime().asSeconds());
             clock.restart();
             frame_counter = 0;
         }
         frame_counter++;
-
-///////////////////////////////////////////////////////////////////
 
         if(toUpdate){
             updates(Circles, Texts, bar, Z, pool);
