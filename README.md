@@ -13,6 +13,6 @@
 cmake ..
 ```
 
-3. Compile using:
+3. Compile:
    - `Windows`: using VS via .sln file
    - `Linux`: using make
